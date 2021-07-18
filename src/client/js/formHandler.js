@@ -6,6 +6,7 @@ const handleSubmit = async (event) => {
   const axios = require("axios").default;
   const bodyData = JSON.stringify({ url: url });
   if (checker) {
+    console.log("request to server")
     axios
       .post(
         "/addURL",
@@ -15,16 +16,19 @@ const handleSubmit = async (event) => {
         {
           headers: {
             "Content-Type": "application/json",
+            charset: "UTF-8",
           },
         }
       )
       .then((response) => {
+        // document.querySelector("p").innerHTML = "GOT RESPONSE";
+
         document.getElementById(
           "polarity"
         ).innerHTML = `Polarity: ${response.data.score_tag}`;
-        document.getElementById(
-          "agreement"
-        ).innerHTML = `Agreement: ${response.agreement}`;
+        document
+          .getElementById //   "agreement"
+          ().innerHTML = `Agreement: ${response.agreement}`;
         document.getElementById(
           "subjectivity"
         ).innerHTML = `Subjectivity: ${response.subjectivity}`;
