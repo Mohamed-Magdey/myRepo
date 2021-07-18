@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
 var path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -8,14 +7,20 @@ const mockAPIResponse = require("./mockAPI.js");
 const fetch = require("node-fetch");
 const base_api_url = "https://api.meaningcloud.com/sentiment-2.1";
 const app = express();
-
 app.use(express.static("dist"));
+// app.use(cors());
 const cors = require("cors");
-app.use(cors());
-// const corsOptions = {
-//   origin: `base_api_url?key=${process.env.API_KEY}`,
-//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-// };
+const { TRUE } = require("node-sass");
+const corsOptions = {
+  origin: true,
+  maxAge: 3600,
+  optionsSuccessStatus: 200,
+  credentials: true,
+  origin: `${base_api_url}?key=${process.env.API_KEY}`,
+  methods: ["POST"],
+  allowedHeaders: ["Content-Type"],
+  preflightContinue: true,
+};
 console.log(__dirname);
 app.get("/", function (req, res) {
   // res.sendFile("dist/index.html");
@@ -28,8 +33,9 @@ app.listen(8081, function () {
 app.get("/test", function (req, res) {
   res.send(mockAPIResponse);
 });
-app.post("/addURL", async (req, res) => {
-  const wantedUrl = req.body.enteredURL;
+app.options("/addURL", cors(corsOptions));
+app.post("/addURL", cors(corsOptions), async (req, res) => {
+  const wantedUrl = req.body.url;
   wantedUrl ? console.log(`You entered: ${userInput}`) : console.log(`error`);
   const url = `${base_api_url}?key=${process.env.API_KEY}&url=${wantedUrl}&lang=en`;
   const fetchedData = await fetch(url);
