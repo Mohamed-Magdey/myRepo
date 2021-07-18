@@ -28,13 +28,13 @@ const handleSubmit = async (event) => {
         ).innerHTML = `Polarity: ${response.data.score_tag}`;
         document
           .getElementById //   "agreement"
-          ().innerHTML = `Agreement: ${response.agreement}`;
+          ().innerHTML = `Agreement: ${response.data.agreement}`;
         document.getElementById(
           "subjectivity"
-        ).innerHTML = `Subjectivity: ${response.subjectivity}`;
+        ).innerHTML = `Subjectivity: ${response.data.subjectivity}`;
         document.getElementById(
           "confidence"
-        ).innerHTML = `Confidence: ${response.confidence}`;
+        ).innerHTML = `Confidence: ${response.data.confidence}`;
         document.getElementById("irony").innerHTML = `Irony: ${response.irony}`;
       })
       .catch((error) => {
