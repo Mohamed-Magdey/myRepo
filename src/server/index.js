@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.static("dist"));
 
 const { TRUE } = require("node-sass");
+const json = require("./mockAPI.js");
 
 console.log(__dirname);
 app.get("/", function (req, res) {
@@ -32,6 +33,7 @@ app.get("/test", function (req, res) {
 app.post("/addURL",  (req, res) => {
   try {
     const wantedUrl = req.body.bodyData.url;
+
     const url = `${base_api_url}?key=${process.env.API_KEY}&url=${wantedUrl}&lang=en`;
 
     fetch(url)
