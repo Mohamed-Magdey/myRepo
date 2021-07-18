@@ -4,12 +4,19 @@ var path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mockAPIResponse = require("./mockAPI.js");
+const fetch = require("node-fetch");
 const base_api_url = "https://api.meaningcloud.com/sentiment-2.1";
 const app = express();
-app.use(express.json());
-app.use(express.static("dist"));
-// app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Cors for cross origin allowance
 const cors = require("cors");
+app.use(cors());
+
+app.use(express.static("dist"));
+
 const { TRUE } = require("node-sass");
 const corsOptions = {
   origin: true,
@@ -33,6 +40,7 @@ app.listen(8081, function () {
 app.get("/test", function (req, res) {
   res.send(mockAPIResponse);
 });
+
 app.options("/addURL", cors(corsOptions));
 app.post("/addURL", cors(corsOptions), async (req, res) => {
   const wantedUrl = req.body.url;
